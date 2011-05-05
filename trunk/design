@@ -1,0 +1,21 @@
+Design document
+
+A compute cluster customized for unit testing.
+
+We need a job creator, a database, a scheduler, a processor, all in a modular system including remote VM booting and quick repo dispersion to the running VMs and a fat database of completed tests.
+
+job creator--
+
+automated, triggered, AI directed, or user defined job creation and queueing system entry
+
+database--
+
+hopefully something distributed, 
+
+scheduler--
+
+uses a distributed queing system to send jobs to local processors
+
+processor--
+
+uses data from the database to run tests as defined by the job creator
