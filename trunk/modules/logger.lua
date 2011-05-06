@@ -1,1 +1,0 @@
-CentralPrint("Loaded "..debug.getinfo(1).source)

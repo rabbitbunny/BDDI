@@ -3,10 +3,10 @@
 
 ]]--
 
-_utility = {
-	["test"] = 5,
-}
-function CentralPrint( stuff )
+_utility = {}
+utility.__index = utility
+
+function utility.CentralPrint( stuff )
 	print(stuff)
 end
 
