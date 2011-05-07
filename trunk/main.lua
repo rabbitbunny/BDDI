@@ -24,7 +24,7 @@ _utility.debugPrint("Loaded "..debug.getinfo(1).source)
 --require("modules/modules.lua")
 
 
---we should recurse arg, 1-(n-2), for flags then grab the last two.
+--we should recurse arg, 1-(n-2), for flags then grab the last two if they're valid data.
 
 if ( arg[0] == _options.CLI_runtime ) then
 	_options.graphics = false
