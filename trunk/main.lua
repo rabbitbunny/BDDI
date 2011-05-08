@@ -54,8 +54,8 @@ else
 		_options.controller = nil
 end
 
-require(_options.type);
 
+_modules._load(_options.type);
 
 _utility.printVariable(_G)
 _utility.debugPrint("Finished "..debug.getinfo(1).source)

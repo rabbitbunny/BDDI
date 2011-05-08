@@ -1,7 +1,8 @@
 do
 
-printtable = {}
+local printtable = {}
 printtable.__index	=	printtable
+printtable.modules = { }
 
 function printtable.load( f )
 	t, err = table.load( f )

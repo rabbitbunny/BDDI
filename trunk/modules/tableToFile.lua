@@ -38,8 +38,9 @@
    Licensed under the same terms as Lua itself.
 ]]--
 do
-	tableToFile = {}
+	local tableToFile = {}
 	tableToFile.__index	=	tableToFile
+	tableToFile.modules = { }
    -- declare local variables
    --// exportstring( string )
    --// returns a "Lua" portable version of the string
