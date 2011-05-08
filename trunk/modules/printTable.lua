@@ -1,3 +1,5 @@
+do
+
 printtable = {}
 printtable.__index	=	printtable
 
@@ -265,3 +267,6 @@ test:sort("value", "DEC");
 print( "---Post Post Sort---");
 test:print();
 ]]--
+
+return printtable
+end

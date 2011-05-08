@@ -5,5 +5,9 @@ _options = {
 	["debug"] = true,
 	["debugLog"] = false,
 	["type"]= "server",
-	["controller"] = nil
+	["controller"] = nil,
+	["logfile"] = "log.txt"
 };
+if ( _options.debug ) then
+	print( "Debug:  Loaded "..debug.getinfo(1).source )
+end

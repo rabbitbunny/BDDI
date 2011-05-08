@@ -38,6 +38,8 @@
    Licensed under the same terms as Lua itself.
 ]]--
 do
+	tableToFile = {}
+	tableToFile.__index	=	tableToFile
    -- declare local variables
    --// exportstring( string )
    --// returns a "Lua" portable version of the string
@@ -50,7 +52,7 @@ do
       return s
    end
 --// The Save Function
-function table.save(  tbl,filename )
+function tableToFile.save(  tbl,filename )
    local charS,charE = "   ","\n"
    local file,err
    -- create a pseudo file that writes to a string and return the string
@@ -145,7 +147,7 @@ function table.save(  tbl,filename )
 end
 
 --// The Load Function
-function table.load( sfile )
+function tableToFile.load( sfile )
    -- catch marker for stringtable
    if not sfile then sfile = "/" end
    if string.sub( sfile,-3,-1 ) == "--|" then
@@ -178,4 +180,5 @@ function table.load( sfile )
    return tables[1]
 end
 -- close do
+return tableToFile
 end

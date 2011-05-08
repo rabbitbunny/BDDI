@@ -58,7 +58,4 @@ require(_options.type);
 
 
 _utility.printVariable(_G)
-_utility.printVariable(arg)
-_utility.printVariable(_options)
-
 _utility.debugPrint("Finished "..debug.getinfo(1).source)

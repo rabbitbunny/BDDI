@@ -8,12 +8,19 @@ _utility.__index = _utility
 
 function _utility.centralPrint( ... )
 	print( ... )
+	if ( _options.log == true ) then
+		_utility.log( ... )
+	end
 end
 
 function _utility.debugPrint( ... )
 	if ( _options.debug ) then
 		_utility.centralPrint( "Debug:", ... )
 	end
+end
+
+function _utility.log( ... )
+	--oops, does nothing
 end
 
 function round(num, idp)  --it rounds numbers.
