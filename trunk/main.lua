@@ -20,7 +20,7 @@ options:
 require("options");
 require("utilities");
 require("modules/modules");
-_utility.debugPrint("Loaded "..debug.getinfo(1).source)
+_utility.debugPrint("Starting "..debug.getinfo(1).source)
 --require("modules/modules.lua")
 
 
@@ -57,5 +57,8 @@ end
 
 _modules._load(_options.type);
 
+_modules[_options.type].main()
+
 _utility.printVariable(_G)
+
 _utility.debugPrint("Finished "..debug.getinfo(1).source)

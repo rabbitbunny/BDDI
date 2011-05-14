@@ -2,7 +2,7 @@
 --little debugging functions
 
 ]]--
-
+print("Starting "..debug.getinfo(1).source)
 _utility = {}
 _utility.__index = _utility
 
@@ -162,5 +162,4 @@ function _utility.printVariable( var, name, tabs )
 	end
 end
 
-
-_utility.debugPrint("Loaded "..debug.getinfo(1).source)
+_utility.debugPrint("Finished "..debug.getinfo(1).source)

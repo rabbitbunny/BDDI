@@ -1,3 +1,9 @@
+--[[
+	print tables for debug
+]]--
+
+_utility.debugPrint("Starting "..debug.getinfo(1).source)
+
 do
 
 local printtable = {}
@@ -269,5 +275,7 @@ print( "---Post Post Sort---");
 test:print();
 ]]--
 
-return printtable
+	return printtable
 end
+
+_utility.debugPrint("Finished "..debug.getinfo(1).source)

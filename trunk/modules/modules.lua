@@ -2,6 +2,8 @@
 creates modules table and loads
 ]]--
 
+_utility.debugPrint("Starting "..debug.getinfo(1).source)
+
 _modules = { }
 _modules.__index = _modules
 _modules.current = { }
@@ -29,4 +31,5 @@ end
 
 _modules._load("tableToFile")
 _modules._load("printTable")
-_utility.debugPrint("Loaded "..debug.getinfo(1).source)
+
+_utility.debugPrint("Finished "..debug.getinfo(1).source)
