@@ -57,7 +57,9 @@ end
 
 _modules._load(_options.type);
 
+_utility.centralPrint("run module ".. _options.type)
 _modules[_options.type].main()
+_utility.centralPrint("stop module ".. _options.type)
 
 _utility.printVariable(_G)
 

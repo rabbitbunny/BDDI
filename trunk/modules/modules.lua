@@ -13,6 +13,7 @@ function _modules._load ( file )
 	_utility.debugPrint("Loading module '"..file.."'")
 	_modules[tostring(file)] = require( "modules/"..file )
 	--make sure we have the prereqs listed in module.modules
+	--_utility.printVariable(_modules, tostring(file))
 	if ( _modules[tostring(file)].modules ~= { } ) then
 		for k,v in ipairs( _modules[tostring(file)].modules ) do
 			--print( k, v )
