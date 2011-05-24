@@ -8,30 +8,39 @@ options:
 
 	<type>
 		server
-			should be running at all times
+			should be running at all times, one per cluster
 		director
-			get work from server, caches for local nodes
+			get work from server, caches for local nodes, one per machine
 		node
 		 does work
 		 
 	<controller>
 		IP is whatever is controlling this subtype, not needed for server
+		
+lua5.1 main.luc
+lua5.1 main.luc -debug
+lua5.1 main.luc -debug director 127.0.0.1
+lua5.1 main.luc -debug node 127.0.0.1
 ]]--
 require("options");
 require("utilities");
 require("modules/modules");
 _utility.debugPrint("Starting "..debug.getinfo(1).source)
---require("modules/modules.lua")
 
-
---we should recurse arg, 1-(n-2), for flags then grab the last two if they're valid data.
-
-if ( arg[0] == _options.CLI_runtime ) then
-	_options.graphics = false
-elseif ( arg[0] == _options.GUI_runtime ) then
+_options.graphics = false
+if ( arg[-1] == _options.GUI_runtime ) then
 	_options.graphics = true
 end
+
+--we should recurse arg, 1-(n-2), for flags then grab the last two if they're valid data.
 -- see if we're in debug
+_utility.printVariable( arg )
+if ( #arg > 1 ) then
+	_utility.centralPrint( "yes")
+	for k,v in ipairs( arg ) do
+		print( k, v )
+	end
+end
 if ( arg[1] == "-debug" ) then
 	_options.debug = true
 	_utility.debugPrint("found debug flag")

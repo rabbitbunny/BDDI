@@ -2,13 +2,15 @@ Design document
 
 A compute cluster customized for unit testing.
 
-server creates job, send to director
+server creates job, dispatches to director, controls database
 
 director queues job, fires node process
 
 node process runs physics environment, returns results to director process
 
 server--
+	runs on main box--
+	starts other boxes via Wake On LAN--
 	unit test creator--
 		manual--
 		preset--
@@ -17,7 +19,12 @@ server--
 		previous results--
 		parts--
 		cluster information--
+	results viewer--
+		make graphs--
+		generate listings--
 director--
+	controls physical box--
+	start nodes--
 	queuing--
 		parts database--
 node--

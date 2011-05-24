@@ -16,7 +16,6 @@ function _modules._load ( file )
 	--_utility.printVariable(_modules, tostring(file))
 	if ( _modules[tostring(file)].modules ~= { } ) then
 		for k,v in ipairs( _modules[tostring(file)].modules ) do
-			--print( k, v )
 			if ( _modules[tostring(v)] == nil ) then
 				_utility.debugPrint("Prereq module needed:", v)
 				_modules._load(v)
