@@ -4,7 +4,6 @@ usage: {filename} [options] <type> <controller>
 
 options:
 	-debug		prints debugging in to terminal
-	-debugLog		prints to logfile
 
 	<type>
 		server
