@@ -2,15 +2,13 @@
 creates modules table and loads
 ]]--
 
-_utility.debugPrint("Starting "..debug.getinfo(1).source)
 
 _modules = { }
 _modules.__index = _modules
-_modules.current = { }
+_modules._loaded = { }
 
 function _modules._load ( file )
-	table.insert( _modules.current, file )
-	_utility.debugPrint("Loading module '"..file.."'")
+	table.insert( _modules._loaded, file )
 	_modules[tostring(file)] = require( "modules/"..file )
 	--make sure we have the prereqs listed in module.modules
 	--_utility.printVariable(_modules, tostring(file))
@@ -27,9 +25,8 @@ end
 function _modules._remove ( file )
 	_utility.debugPrint("Unloading module '"..file.."'")
 	_modules[tostring(file)] = nil
+	_modules._loaded[tostring(file)] = nil --maybe?
 end
 
 _modules._load("tableToFile")
 _modules._load("printTable")
-
-_utility.debugPrint("Finished "..debug.getinfo(1).source)

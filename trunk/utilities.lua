@@ -2,32 +2,42 @@
 --little debugging functions
 
 ]]--
-print("Starting "..debug.getinfo(1).source)
 _utility = {}
 _utility.__index = _utility
 
-function _utility.centralPrint( ... )
-	print( ... )
+function _utility.print( ... )
+	arg = table.concat( {...}, " " )
+	print( arg )
 	if ( _options.log == true ) then
-		_utility.log( ... )
+		_utility._log( arg )
 	end
 end
 
 function _utility.debugPrint( ... )
+	arg = table.concat( {...}, " " )
 	if ( _options.debug ) then
-		_utility.centralPrint( "Debug:", ... )
+		_utility.print( "Debug:", arg )
 	end
 end
 
-function _utility.log( ... )
-	--oops, does nothing
+function _utility._log( ... )
+	file,err = io.open( "logs/" .. _options.logfile .. _options.start_time .. ".txt", "a")
+	if err then return _,err end
+	arg = table.concat( {...}, " " )
+	file:write( "\n" .. 	arg )
+	file:close()
 end
-
+--[[
+file = io.open("testRead.txt","a")
+myText = "\nHello"
+file:write(myText)
+file:close()
+]]--
 function round(num, idp)  --it rounds numbers.
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
 end
 
-local function arrayInsert( ary, val, idx )
+function _utility.arrayInsert( ary, val, idx )
     -- Needed because table.insert has issues
     -- An "array" is a table indexed by sequential
     -- positive integers (no empty slots)
@@ -54,7 +64,7 @@ local function arrayInsert( ary, val, idx )
     end
 end
 
-local function compareAnyTypes( op1, op2 ) -- Return the comparison result
+function _utility.compareAnyTypes( op1, op2 ) -- Return the comparison result
     -- Inspired by http://lua-users.org/wiki/SortedIteration
     local type1, type2 = type(op1),     type(op2)
     local num1,  num2  = tonumber(op1), tonumber(op2)
@@ -74,12 +84,12 @@ local function compareAnyTypes( op1, op2 ) -- Return the comparison result
     end
 end
 
-function pairsByKeys (tbl, func)
+function _utility.pairsByKeys (tbl, func)
     -- Inspired by http://www.lua.org/pil/19.3.html
     -- and http://lua-users.org/wiki/SortedIteration
 
     if func == nil then
-        func = compareAnyTypes
+        func = _utility.compareAnyTypes
     end
 
     -- Build a sorted array of the keys from the passed table
@@ -93,7 +103,7 @@ function pairsByKeys (tbl, func)
             local done = false
             for j=1,lastUsed do  -- Do an insertion sort
                 if (func(key, ary[j]) == true) then
-                    arrayInsert( ary, key, j )
+                    _utility.arrayInsert( ary, key, j )
                     done = true
                     break
                 end
@@ -126,40 +136,39 @@ function _utility.printVariable( var, name, tabs )
 	name = name or type(var);
 	tabs = tabs or 0;
 	if type(var) == "string" then
-		print( string.rep("\t", tabs)..name.." = "..string.format("%q", var) );
+		_utility.debugPrint( string.rep("\t", tabs)..name.." = "..string.format("%q", var) );
 	elseif type(var) == "number" then
-		print( string.rep("\t", tabs)..name.." = "..var );
+		_utility.debugPrint( string.rep("\t", tabs)..name.." = "..var );
 	elseif ( name == "_G" ) then
-		print( string.rep("\t", tabs).."_G = { GLOBAL -- Not recursing }" ); -- heh, infinite recursion is funny.
+		_utility.debugPrint( string.rep("\t", tabs).."_G = { GLOBAL -- Not recursing }" ); -- heh, infinite recursion is funny.
 	elseif ( name == "loaded" ) then
-		print( string.rep("\t", tabs).."loaded = { loaded -- Not recursing }" ); -- heh, infinite recursion is funny.
+		_utility.debugPrint( string.rep("\t", tabs).."loaded = { loaded -- Not recursing }" ); -- heh, infinite recursion is funny.
 	elseif ( name == "__index" ) then
-		print( string.rep("\t", tabs).."__index = { __index -- Not recursing }" ); -- heh, infinite recursion is funny.
+		_utility.debugPrint( string.rep("\t", tabs).."__index = { __index -- Not recursing }" ); -- heh, infinite recursion is funny.
 	elseif type(var) == "table" then
-		print( string.rep("\t", tabs)..name.." = {" );
-		for k,v in pairsByKeys(var) do
+		_utility.debugPrint( string.rep("\t", tabs)..name.." = {" );
+		for k,v in _utility.pairsByKeys(var) do
 			_utility.printVariable(v,tostring(k),tabs+1);
 		end
-		print( string.rep("\t", tabs).."}" );
+		_utility.debugPrint( string.rep("\t", tabs).."}" );
 	elseif type(var) == "function" then
-		print( string.rep("\t", tabs)..name.." = function(".." ... "..")" ); -- Prototype?
+		_utility.debugPrint( string.rep("\t", tabs)..name.." = function(".." ... "..")" ); -- Prototype?
 	elseif type(var) == "thread" then
-		print( string.rep("\t", tabs)..name.." = thread(".." ... "..")" ); -- PID?
+		_utility.debugPrint( string.rep("\t", tabs)..name.." = thread(".." ... "..")" ); -- PID?
 	elseif type(var) == "userdata" then
-		print( string.rep("\t", tabs)..name.." = userdata(".." ... "..")" );
+		_utility.debugPrint( string.rep("\t", tabs)..name.." = userdata(".." ... "..")" );
 	elseif type(var) == "boolean" then
 		if ( var ) then
-			print( string.rep("\t", tabs)..name.." = boolean(true)" );
+			_utility.debugPrint( string.rep("\t", tabs)..name.." = boolean(true)" );
 		else
-			print( string.rep("\t", tabs)..name.." = boolean(false)" );
+			_utility.debugPrint( string.rep("\t", tabs)..name.." = boolean(false)" );
 		end
 	elseif type(var) == "nil" then
-		print( string.rep("\t", tabs)..name.." = nil" );
+		_utility.debugPrint( string.rep("\t", tabs)..name.." = nil" );
 	else
 		--We don't know what it is
 		--nil, _boolean, _number, _string, _userdata, _function, _thread, and _table
-		print( name..": ", var )
+		_utility.debugPrint( name..": ", var )
 	end
 end
 
-_utility.debugPrint("Finished "..debug.getinfo(1).source)
