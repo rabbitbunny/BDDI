@@ -26,33 +26,31 @@ require("utilities");
 require("modules/modules");
 
 _options.graphics = false
-if ( arg[-1] == _options.GUI_runtime ) then
-	_options.graphics = true
-end
 
+--_utility.printVariable(_G)
+
+if ( arg[-1] == _options.JIT_runtime ) then
+	_options.runtime = _options.JIT_runtime
+else
+	_options.runtime = _options.Lua_runtime
+end
 --we should recurse arg, 1-(n-2), for flags then grab the last two if they're valid data.
--- see if we're in debug
-_utility.printVariable( arg )
+-- as it is we can't use the --debug flag so... need to work on that
+_options.type = "server"
+_options.controller = nil
 if ( #arg > 0 ) then
-	_utility.debugPrint( "found cli args" )
-	for k,v in pairs(arg) do
-	 _utility.debugPrint( k, v )
-	end
+	--_utility.debugPrint( "found cli args" )
+	--for k,v in ipairs(arg) do
+	-- _utility.debugPrint( k, v )
+	--end
+	_options.type = arg[1]
+	_options.controller = arg[2]
+else
+	--_utility.debugPrint("did not read commandline args.")
 end
-
-if ( _options.type == nil ) then
-	_utility.debugPrint("did not read commandline args.")
-		_options.type = "server"
-		_options.controller = nil
-end
-
 
 _modules._load(_options.type);
 
-_utility.debugPrint("running module ".. _options.type)
 _modules[_options.type].main()
-_utility.debugPrint("module ".. _options.type .. " stopped")
 
-_utility.printVariable(_G)
-
-_utility.debugPrint("Finished "..debug.getinfo(1).source)
+--_utility.printVariable(_G)

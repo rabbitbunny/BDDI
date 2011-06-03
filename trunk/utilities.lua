@@ -6,22 +6,29 @@ _utility = {}
 _utility.__index = _utility
 
 function _utility.print( ... )
-	arg = table.concat( {...}, " " )
-	print( arg )
+	arg = {...}
+	input = table.concat( arg, " " )
+	if ( _options.debug ) then
+		print( _options.type .. " " .. input )
+	else
+		print( input )
+	end
+	io.flush()
 	if ( _options.log == true ) then
-		_utility._log( arg )
+		_utility._log( input )
 	end
 end
 
 function _utility.debugPrint( ... )
-	arg = table.concat( {...}, " " )
+	arg = {...}
+	input = table.concat( arg, " " )
 	if ( _options.debug ) then
-		_utility.print( "Debug:", arg )
+		_utility.print( "Debug:", input )
 	end
 end
 
 function _utility._log( ... )
-	file,err = io.open( "logs/" .. _options.logfile .. _options.start_time .. ".txt", "a")
+	file,err = io.open( "logs/" .. _options.type .. _options.logfile .. _options.start_time .. ".txt", "a")
 	if err then return _,err end
 	arg = table.concat( {...}, " " )
 	file:write( "\n" .. 	arg )
@@ -35,6 +42,25 @@ file:close()
 ]]--
 function round(num, idp)  --it rounds numbers.
 	return tonumber(string.format("%." .. (idp or 0) .. "f", num))
+end
+
+function bargraph(num, den, len)
+	--funny bug, but if num&den == 1, (filled*len)==(desired*len)
+	if ( (den == inf) or (den == nil) ) or (den <= 0) then
+		den = len
+	end
+	per = len / den
+	--if ( (per == inf) or (per == nil) ) or (per <= 0) then
+	--	per = 1
+	--end
+	filled = round( ((num / den) * per), 2)
+	return "("..num.."/"..den.."["..string.rep("=", round((filled*len),0) )..string.rep("-", round(len - (filled*len), 0) ).."]"..filled.."/"..len..")"
+end
+
+function table.copy(t)
+  local u = { }
+  for k, v in pairs(t) do u[k] = v end
+  return setmetatable(u, getmetatable(t))
 end
 
 function _utility.arrayInsert( ary, val, idx )

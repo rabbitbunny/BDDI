@@ -1,5 +1,6 @@
 _options = {
-	["GUI_runtime"] = "lua5.1",
+	["Lua_runtime"] = "lua5.1",
+	["JIT_runtime"] = "luajit-2.0.0-beta2",
 	["cluster"] = {
 		["single"] = true,
 	},
@@ -19,7 +20,8 @@ _options = {
 		},
 		["prototype"] = {
 			["x"] = true,
-			["y"] = true
+			["y"] = true,
+			["fitness"] = true
 		},
 	},
 };

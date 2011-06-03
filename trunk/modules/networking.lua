@@ -7,6 +7,7 @@ do
 	local networking = {}
 	networking.__index = networking
 	networking.modules = { }
+	networking.myip = "127.0.0.1" -- uh, this needs to be dynamic
 	
 	function networking.open( title )
 		_utility.print( "Opening Network Connection" )
